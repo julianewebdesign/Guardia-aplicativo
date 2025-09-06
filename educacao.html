@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Educação - GuardIA</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    background: #f2f3f7;
+    display: flex;
+    justify-content: center;
+  }
+
+  .container {
+    width: 420px;
+    max-width: 100%;
+    margin: 20px;
+    background: #fff;
+    border-radius: 25px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+    overflow: hidden;
+    padding: 20px;
+  }
+
+  /* Header */
+  .header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    cursor: pointer;
+    margin-bottom: 20px;
+  }
+  .header img {
+    height: 80px;
+    width: 80px;
+    object-fit: contain;
+  }
+  .header h1 {
+    font-size: 36px;
+    font-weight: 700;
+    color: #ed83a6;
+    margin: 0;
+  }
+
+  /* Sidebar */
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: -60%;
+    width: 60%;
+    max-width: 300px;
+    height: 100%;
+    background: #fff;
+    box-shadow: 4px 0 15px rgba(0,0,0,0.25);
+    padding: 25px 15px;
+    transition: 0.3s;
+    z-index: 2000;
+    border-top-right-radius: 25px;
+    border-bottom-right-radius: 25px;
+  }
+  .sidebar.active { left: 0; }
+  .sidebar h2 {
+    font-size: 20px;
+    color: #ed83a6;
+    margin-bottom: 25px;
+    font-weight: 600;
+  }
+  .sidebar ul { list-style: none; padding: 0; }
+  .sidebar ul li {
+    padding: 15px 10px;
+    border-bottom: 1px solid #eee;
+    cursor: pointer;
+    font-weight: 500;
+    color: #444;
+    transition: 0.2s;
+  }
+  .sidebar ul li:hover { color: #ed83a6; }
+
+  .overlay {
+    position: fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background: rgba(0,0,0,0.3);
+    display: none;
+    z-index: 1000;
+  }
+
+  h2 { margin:0 0 15px 0; color:#444; font-size:18px; text-align:center; font-weight:500; }
+
+  .section { margin-bottom: 25px; }
+  .section h3 { margin-bottom: 12px; font-size:16px; color:#f796b7; font-weight:600; }
+
+  /* Cards de educação */
+  .edu-card {
+    background: #fff; 
+    border: 2px solid #ed83a6; 
+    border-radius: 15px;
+    padding: 15px;
+    margin-bottom: 15px;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.05);
+    transition: 0.2s;
+  }
+  .edu-card:hover { box-shadow: 0 6px 18px rgba(0,0,0,0.1); }
+  .edu-card h4 { 
+    margin:0 0 6px 0; 
+    font-size:16px; 
+    color:#ed83a6; 
+    font-weight:600;
+  }
+  .edu-card span { font-size:12px; color:#999; display:block; margin-bottom:8px; }
+  .edu-card p { margin:0; font-size:13px; color:#333; text-align:justify; }
+</style>
+</head>
+<body>
+
+<div class="overlay" id="overlay" onclick="closeMenu()"></div>
+
+<div class="sidebar" id="sidebar">
+  <h2>Menu</h2>
+  <ul>
+    <li><a href="painel.html">Painel</a></li>
+    <li><a href="configuracoes.html">Configurações</a></li>
+    <li><a href="noticias.html">Notícias</a></li>
+    <li><a href="cadastro.html">Cadastro</a></li>
+    <li><a href="historico.html">Histórico de rotas</a></li>
+    <li><a href="interface_premium.html">Interface (Premium)</a></li>
+  </ul>
+</div>
+
+<div class="container">
+  <div class="header" onclick="toggleMenu()">
+    <img src="assets/guardia.png" alt="Logo GuardIA"> 
+    <h1>GuardIA</h1>
+  </div>
+
+  <h2>Educação</h2>
+
+  <div class="section" id="eduContainer">
+    <!-- Cartões de educação serão inseridos aqui -->
+  </div>
+</div>
+
+<script>
+const sidebar = document.getElementById('sidebar');
+const overlay = document.getElementById('overlay');
+
+function toggleMenu() {
+  sidebar.classList.toggle('active');
+  overlay.style.display = sidebar.classList.contains('active') ? 'block' : 'none';
+}
+function closeMenu() {
+  sidebar.classList.remove('active');
+  overlay.style.display = 'none';
+}
+
+// Matérias educativas simuladas
+const educacao = [
+  {
+    titulo: "Educação financeira para mulheres",
+    descricao: "Aprenda a organizar suas finanças, montar orçamento familiar e investir de forma segura, com dicas práticas de especialistas para aumentar a independência econômica feminina.",
+    data:"2025-09-05"
+  },
+  {
+    titulo: "Saúde feminina e autocuidado",
+    descricao: "Informações essenciais sobre cuidados com a saúde física e mental da mulher, prevenção de doenças, check-ups regulares e hábitos saudáveis no dia a dia.",
+    data:"2025-09-04"
+  },
+  {
+    titulo: "Educação sexual e prevenção",
+    descricao: "Conteúdo educativo sobre sexualidade, métodos contraceptivos, prevenção de ISTs e direitos sexuais e reprodutivos das mulheres.",
+    data:"2025-09-03"
+  },
+  {
+    titulo: "Cuidados com cabelos e aparência",
+    descricao: "Orientações sobre cuidados capilares, hidratação, finalização e manutenção, promovendo autoestima e bem-estar.",
+    data:"2025-09-02"
+  },
+  {
+    titulo: "Primeiros socorros e autocuidado",
+    descricao: "Guia de como agir em casos de mal-estar ou pequenos acidentes, incluindo dicas de primeiros socorros e medidas de segurança pessoal.",
+    data:"2025-09-01"
+  }
+];
+
+function carregarEducacao() {
+  const container = document.getElementById('eduContainer');
+  educacao.forEach(item => {
+    const card = document.createElement('div');
+    card.className = 'edu-card';
+    card.innerHTML = `<h4>${item.titulo}</h4><span>${item.data}</span><p>${item.descricao}</p>`;
+    container.appendChild(card);
+  });
+}
+
+carregarEducacao();
+</script>
+</body>
+</html>

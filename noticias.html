@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Notícias - GuardIA</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    background: #f2f3f7;
+    display: flex;
+    justify-content: center;
+  }
+
+  .container {
+    width: 420px;
+    max-width: 100%;
+    margin: 20px;
+    background: #fff;
+    border-radius: 25px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+    overflow: hidden;
+    padding: 20px;
+  }
+
+  /* Header */
+  .header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    cursor: pointer;
+    margin-bottom: 20px;
+  }
+  .header img {
+    height: 80px;
+    width: 80px;
+    object-fit: contain;
+  }
+  .header h1 {
+    font-size: 36px;
+    font-weight: 700;
+    color: #ed83a6;
+    margin: 0;
+  }
+
+  /* Sidebar */
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: -60%;
+    width: 60%;
+    max-width: 300px;
+    height: 100%;
+    background: #fff;
+    box-shadow: 4px 0 15px rgba(0,0,0,0.25);
+    padding: 25px 15px;
+    transition: 0.3s;
+    z-index: 2000;
+    border-top-right-radius: 25px;
+    border-bottom-right-radius: 25px;
+  }
+  .sidebar.active { left: 0; }
+  .sidebar h2 {
+    font-size: 20px;
+    color: #ed83a6;
+    margin-bottom: 25px;
+    font-weight: 600;
+  }
+  .sidebar ul { list-style: none; padding: 0; }
+  .sidebar ul li {
+    padding: 15px 10px;
+    border-bottom: 1px solid #eee;
+    cursor: pointer;
+    font-weight: 500;
+    color: #444;
+    transition: 0.2s;
+  }
+  .sidebar ul li:hover { color: #ed83a6; }
+
+  .overlay {
+    position: fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background: rgba(0,0,0,0.3);
+    display: none;
+    z-index: 1000;
+  }
+
+  h2 { margin:0 0 15px 0; color:#444; font-size:18px; text-align:center; font-weight:500; }
+
+  .section { margin-bottom: 25px; }
+  .section h3 { margin-bottom: 12px; font-size:16px; color:#f796b7; font-weight:600; }
+
+  select {
+    width: 100%;
+    border-radius: 12px;
+    border: 1px solid #e0e0e0;
+    padding: 12px;
+    margin-top: 8px;
+    background: #fff;
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+  }
+
+  /* Notícias estilo moderno */
+  .news-card {
+    background: #fff; /* fundo branco */
+    border: 2px solid #ed83a6; /* borda rosa */
+    border-radius: 15px;
+    padding: 15px;
+    margin-bottom: 15px;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.05);
+    transition: 0.2s;
+  }
+  .news-card:hover {
+    box-shadow: 0 6px 18px rgba(0,0,0,0.1);
+  }
+  .news-card h4 { 
+    margin:0 0 6px 0; 
+    font-size:16px; 
+    color:#ed83a6; /* título rosa */
+    font-weight:600;
+  }
+  .news-card span { 
+    font-size:12px; 
+    color:#999; 
+    display:block; 
+    margin-bottom:8px; 
+  }
+  .news-card p { 
+    margin:0; 
+    font-size:14px; 
+    color:#333; 
+    text-align:justify; 
+  }
+</style>
+</head>
+<body>
+
+<div class="overlay" id="overlay" onclick="closeMenu()"></div>
+
+<div class="sidebar" id="sidebar">
+  <h2>Menu</h2>
+  <ul>
+    <li><a href="guardia.html">Painel</a></li>
+    <li><a href="configuracoes.html">Configurações</a></li>
+    <li><a href="educacao.html">Educação</a></li>
+    <li><a href="cadastro.html">Cadastro</a></li>
+    <li><a href="historico.html">Histórico de rotas</a></li>
+    <li><a href="interface_premium.html">Interface (Premium)</a></li>
+  </ul>
+</div>
+
+<div class="container">
+  <!-- Header -->
+  <div class="header" onclick="toggleMenu()">
+    <img src="assets/guardia.png" alt="Logo GuardIA"> 
+    <h1>GuardIA</h1>
+  </div>
+
+  <h2>Notícias</h2>
+
+  <!-- Filtros -->
+  <div class="section">
+    <h3>Filtrar notícias</h3>
+    <label for="estado">Estado:</label>
+    <select id="estado" onchange="filtrarNoticias()">
+      <option value="">Todos</option>
+      <option value="SP">São Paulo</option>
+      <option value="RJ">Rio de Janeiro</option>
+      <option value="MG">Minas Gerais</option>
+    </select>
+
+    <label for="cidade">Cidade:</label>
+    <select id="cidade" onchange="filtrarNoticias()">
+      <option value="">Todas</option>
+      <option value="São Paulo">São Paulo</option>
+      <option value="Rio de Janeiro">Rio de Janeiro</option>
+      <option value="Belo Horizonte">Belo Horizonte</option>
+    </select>
+
+    <label for="tipo">Tipo de notícia:</label>
+    <select id="tipo" onchange="filtrarNoticias()">
+      <option value="">Todos</option>
+      <option value="educacional">Educacional</option>
+      <option value="criminal">Criminal</option>
+      <option value="emprego">Emprego</option>
+    </select>
+  </div>
+
+  <!-- Notícias -->
+  <div class="section" id="newsContainer"></div>
+</div>
+
+<script>
+const sidebar = document.getElementById('sidebar');
+const overlay = document.getElementById('overlay');
+
+function toggleMenu() {
+  sidebar.classList.toggle('active');
+  overlay.style.display = sidebar.classList.contains('active') ? 'block' : 'none';
+}
+function closeMenu() {
+  sidebar.classList.remove('active');
+  overlay.style.display = 'none';
+}
+
+// Notícias simuladas
+const noticias = [
+  {titulo:"Centro de Capacitação oferece curso gratuito de informática para mulheres", 
+   descricao:"O Centro de Capacitação Profissional de São Paulo abriu inscrições para um curso gratuito de informática voltado exclusivamente para mulheres. A iniciativa busca aumentar a presença feminina no mercado de trabalho tecnológico.", 
+   data:"2025-09-05", estado:"SP", cidade:"São Paulo", tipo:"educacional"},
+
+  {titulo:"Fundação Mulheres Unidas inaugura nova sede no Rio de Janeiro", 
+   descricao:"A Fundação Mulheres Unidas realizou a inauguração de sua nova sede na capital fluminense. O espaço servirá como centro de apoio, oferecendo cursos, palestras e atendimento psicológico gratuito às mulheres.", 
+   data:"2025-09-04", estado:"RJ", cidade:"Rio de Janeiro", tipo:"educacional"},
+
+  {titulo:"Empresa abre 20 vagas para assistentes administrativas em Belo Horizonte", 
+   descricao:"Com o objetivo de ampliar sua equipe, a empresa TechSol anunciou a abertura de 20 vagas de emprego para assistentes administrativas. Mulheres são incentivadas a se candidatar.", 
+   data:"2025-09-03", estado:"MG", cidade:"Belo Horizonte", tipo:"emprego"},
+
+  {titulo:"Polícia investiga caso de assédio em via pública de São Paulo", 
+   descricao:"Autoridades de segurança pública de São Paulo investigam um caso de assédio reportado no centro da cidade. A ocorrência reforça a necessidade de medidas de proteção às mulheres em áreas urbanas.", 
+   data:"2025-09-02", estado:"SP", cidade:"São Paulo", tipo:"criminal"},
+
+  {titulo:"Curso de autodefesa gratuito em parceria com ONG no Rio de Janeiro", 
+   descricao:"A ONG Proteção Mulher oferece curso de autodefesa gratuito em diversos bairros do Rio de Janeiro. O programa tem foco em técnicas preventivas e práticas de segurança pessoal.", 
+   data:"2025-09-01", estado:"RJ", cidade:"Rio de Janeiro", tipo:"educacional"}
+];
+
+function filtrarNoticias() {
+  const estado = document.getElementById('estado').value;
+  const cidade = document.getElementById('cidade').value;
+  const tipo = document.getElementById('tipo').value;
+
+  const container = document.getElementById('newsContainer');
+  container.innerHTML = '';
+
+  const filtradas = noticias.filter(n => 
+    (estado === "" || n.estado === estado) &&
+    (cidade === "" || n.cidade === cidade) &&
+    (tipo === "" || n.tipo === tipo)
+  );
+
+  if(filtradas.length === 0){
+    container.innerHTML = '<p style="font-size:14px; color:#666;">Nenhuma notícia encontrada.</p>';
+    return;
+  }
+
+  filtradas.forEach(n => {
+    const card = document.createElement('div');
+    card.className = 'news-card';
+    card.innerHTML = `<h4>${n.titulo}</h4><span>${n.data} - ${n.cidade}, ${n.estado}</span><p>${n.descricao}</p>`;
+    container.appendChild(card);
+  });
+}
+
+// Inicializa mostrando todas as notícias
+filtrarNoticias();
+</script>
+</body>
+</html>

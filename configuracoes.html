@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Configurações - GuardIA</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    background: #f2f3f7;
+    display: flex;
+    justify-content: center;
+  }
+
+  .container {
+    width: 420px;
+    max-width: 100%;
+    margin: 20px;
+    background: #fff;
+    border-radius: 25px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+    overflow: hidden;
+    padding: 20px;
+    position: relative;
+  }
+
+  /* Header */
+  .header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    cursor: pointer;
+    margin-bottom: 20px;
+  }
+  .header img {
+    height: 80px;
+    width: 80px;
+    object-fit: contain;
+  }
+  .header h1 {
+    font-size: 36px;
+    font-weight: 700;
+    color: #ed83a6;
+    margin: 0;
+  }
+
+  /* Sidebar */
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: -60%;
+    width: 60%;
+    max-width: 300px;
+    height: 100%;
+    background: #fff;
+    box-shadow: 4px 0 15px rgba(0,0,0,0.25);
+    padding: 25px 15px;
+    transition: 0.3s;
+    z-index: 2000;
+    border-top-right-radius: 25px;
+    border-bottom-right-radius: 25px;
+  }
+  .sidebar.active { left: 0; }
+  .sidebar h2 {
+    font-size: 20px;
+    color: #ed83a6;
+    margin-bottom: 25px;
+    font-weight: 600;
+  }
+  .sidebar ul {
+    list-style: none;
+    padding: 0;
+  }
+  .sidebar ul li {
+    padding: 15px 10px;
+    border-bottom: 1px solid #eee;
+    cursor: pointer;
+    font-weight: 500;
+    color: #444;
+    transition: 0.2s;
+  }
+  .sidebar ul li:hover { color: #ed83a6; }
+
+  .overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.3);
+    display: none;
+    z-index: 1000;
+  }
+
+  h2 { margin: 0 0 15px 0; color: #444; font-size: 18px; text-align: center; font-weight: 500; }
+
+  .section { margin-bottom: 25px; }
+  .section h3 {
+    margin-bottom: 12px;
+    font-size: 16px;
+    color: #f796b7;
+    font-weight: 600;
+  }
+
+  .btn {
+    padding: 14px;
+    border-radius: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    text-align: center;
+    color: #fff;
+    background: linear-gradient(135deg, #f4a0c2, #ed9bb6);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    font-size: 15px;
+    transition: all 0.25s;
+    margin-top: 10px;
+  }
+  .btn:hover { transform: translateY(-2px); box-shadow: 0 6px 14px rgba(0,0,0,0.15); }
+
+  input, select, textarea {
+    width: 100%;
+    border-radius: 12px;
+    border: 1px solid #e0e0e0;
+    padding: 12px;
+    margin-top: 8px;
+    background: #fff;
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+  }
+
+  label { font-weight: 500; font-size: 14px; margin-top: 10px; display: block; }
+
+  .toggle-group { display: flex; align-items: center; gap: 12px; margin-top: 8px; }
+</style>
+</head>
+<body>
+
+<div class="overlay" id="overlay" onclick="closeMenu()"></div>
+
+<div class="sidebar" id="sidebar">
+  <h2>Menu</h2>
+  <ul>
+    <li><a href="guardia.html">Painel</a></li>
+    <li><a href="forum.html">Fórum</a></li>
+    <li><a href="noticias.html">Notícias</a></li>
+    <li><a href="educacao.html">Educação</a></li>
+    <li><a href="cadastro.html">Cadastro</a></li>
+    <li><a href="historico.html">Histórico de rotas</a></li>
+    <li><a href="interface_premium.html">Interface (Premium)</a></li>
+    <li><a href="armazenamento.html">Armazenamento de usuária</a></li>
+    <li><a href="protecao_crianca.html">Proteção à criança</a></li>
+  </ul>
+</div>
+
+<div class="container">
+  <!-- Header -->
+  <div class="header" onclick="toggleMenu()">
+    <img src="assets/guardia.png" alt="Logo GuardIA"> 
+    <h1>GuardIA</h1>
+  </div>
+
+  <h2>Configurações</h2>
+
+  <!-- Controle de Zoom -->
+  <div class="section">
+    <h3>Zoom do mapa</h3>
+    <label for="zoomLevel">Ajustar nível de zoom:</label>
+    <input type="range" id="zoomLevel" min="1" max="20" value="13" oninput="updateZoom(this.value)">
+  </div>
+
+  <!-- Check-in automático -->
+  <div class="section">
+    <h3>Check-in automático</h3>
+    <div class="toggle-group">
+      <input type="checkbox" id="checkinToggle" onchange="toggleCheckin()">
+      <label for="checkinToggle">Ativar check-in automático</label>
+    </div>
+    <label for="checkinTime">Horário do check-in:</label>
+    <input type="time" id="checkinTime">
+    <p style="font-size:13px; color:#666;">Se a usuária não responder, será enviado alerta automático (opcional).</p>
+  </div>
+
+  <!-- Proteção GuardIA ao redor -->
+  <div class="section">
+    <h3>Proteção GuardIA ao redor</h3>
+    <div class="toggle-group">
+      <input type="checkbox" id="aroundToggle" onchange="toggleAround()">
+      <label for="aroundToggle">Ativar envio de alerta para outras usuárias próximas</label>
+    </div>
+    <p style="font-size:13px; color:#666;">Quando ativado, outras usuárias em 1km recebem notificação anônima se o botão de pânico for acionado.</p>
+  </div>
+
+  <!-- PDF de segurança e LGPD -->
+  <div class="section">
+    <h3>Informações de segurança</h3>
+    <button class="btn" onclick="openPDF()">Visualizar PDF de políticas e LGPD</button>
+  </div>
+
+  <!-- Sair do login -->
+  <div class="section">
+    <button class="btn" style="background: linear-gradient(135deg, #f46161, #ed4b8b);" onclick="logout()">Sair do login</button>
+  </div>
+</div>
+
+<script>
+  const sidebar = document.getElementById('sidebar');
+  const overlay = document.getElementById('overlay');
+
+  function toggleMenu() {
+    sidebar.classList.toggle('active');
+    overlay.style.display = sidebar.classList.contains('active') ? 'block' : 'none';
+  }
+
+  function closeMenu() {
+    sidebar.classList.remove('active');
+    overlay.style.display = 'none';
+  }
+
+  // Zoom do mapa
+  function updateZoom(value){
+    alert('Zoom ajustado para: ' + value); 
+    // Aqui você pode conectar com o mapa real
+  }
+
+  // Check-in automático
+  function toggleCheckin(){
+    const checked = document.getElementById('checkinToggle').checked;
+    alert(checked ? 'Check-in automático ativado' : 'Check-in automático desativado');
+  }
+
+  // Proteção GuardIA ao redor
+  function toggleAround(){
+    const checked = document.getElementById('aroundToggle').checked;
+    alert(checked ? 'Proteção ao redor ativada' : 'Proteção ao redor desativada');
+  }
+
+  // Abrir PDF
+  function openPDF(){
+    window.open('politicas_guardia.pdf', '_blank');
+  }
+
+  // Logout
+  function logout(){
+    alert('Saindo do login...');
+    window.location.href = 'login.html';
+  }
+</script>
+
+</body>
+</html>

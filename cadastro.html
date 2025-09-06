@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cadastro - GuardIA</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    background: #f2f3f7;
+    display: flex;
+    justify-content: center;
+  }
+
+  .container {
+    width: 420px;
+    max-width: 100%;
+    margin: 20px;
+    background: #fff;
+    border-radius: 25px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+    overflow: hidden;
+    padding: 20px;
+  }
+
+  /* Header */
+  .header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    cursor: pointer;
+    margin-bottom: 20px;
+  }
+  .header img {
+    height: 80px;
+    width: 80px;
+    object-fit: contain;
+  }
+  .header h1 {
+    font-size: 36px;
+    font-weight: 700;
+    color: #ed83a6;
+    margin: 0;
+  }
+
+  /* Sidebar */
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: -60%;
+    width: 60%;
+    max-width: 300px;
+    height: 100%;
+    background: #fff;
+    box-shadow: 4px 0 15px rgba(0,0,0,0.25);
+    padding: 25px 15px;
+    transition: 0.3s;
+    z-index: 2000;
+    border-top-right-radius: 25px;
+    border-bottom-right-radius: 25px;
+  }
+  .sidebar.active { left: 0; }
+  .sidebar h2 {
+    font-size: 20px;
+    color: #ed83a6;
+    margin-bottom: 25px;
+    font-weight: 600;
+  }
+  .sidebar ul { list-style: none; padding: 0; }
+  .sidebar ul li {
+    padding: 15px 10px;
+    border-bottom: 1px solid #eee;
+    cursor: pointer;
+    font-weight: 500;
+    color: #444;
+    transition: 0.2s;
+  }
+  .sidebar ul li:hover { color: #ed83a6; }
+
+  .overlay {
+    position: fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background: rgba(0,0,0,0.3);
+    display: none;
+    z-index: 1000;
+  }
+
+  h2 { margin:0 0 15px 0; color:#444; font-size:18px; text-align:center; font-weight:500; }
+
+  .section { margin-bottom: 25px; }
+  .section h3 { margin-bottom: 12px; font-size:16px; color:#f796b7; font-weight:600; }
+
+  input, select, textarea {
+    width: 100%;
+    border-radius: 12px;
+    border: 1px solid #e0e0e0;
+    padding: 12px;
+    margin-top: 8px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+    background: #fff;
+    color: #333;
+  }
+
+  .card {
+    border: 2px solid #ed83a6;
+    border-radius: 15px;
+    padding: 15px;
+    margin-bottom: 15px;
+    background: #fff;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  }
+
+  .card h4 {
+    font-size: 15px;
+    font-weight: 600;
+    color: #ed83a6;
+    margin-bottom: 8px;
+  }
+
+  .btn {
+    width: 100%;
+    padding: 12px;
+    margin-top: 12px;
+    border-radius: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    text-align: center;
+    color: #fff;
+    background: linear-gradient(135deg, #f4a0c2, #ed9bb6);
+    box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+    font-size: 14px;
+    transition: all 0.25s;
+  }
+  .btn:hover { 
+    transform: translateY(-2px);
+    box-shadow: 0 6px 14px rgba(0,0,0,0.15);
+  }
+
+  .small-text { font-size:12px; color:#666; margin-top:6px; }
+</style>
+</head>
+<body>
+
+<div class="overlay" id="overlay" onclick="closeMenu()"></div>
+
+<div class="sidebar" id="sidebar">
+  <h2>Menu</h2>
+  <ul>
+    <li><a href="index.html">Painel</a></li>
+    <li><a href="configuracoes.html">Configurações</a></li>
+    <li><a href="noticias.html">Notícias</a></li>
+    <li><a href="educacao.html">Educação</a></li>
+    <li><a href="historico.html">Histórico de rotas</a></li>
+  </ul>
+</div>
+
+<div class="container">
+  <div class="header" onclick="toggleMenu()">
+    <img src="assets/guardia.png" alt="Logo GuardIA"> 
+    <h1>GuardIA</h1>
+  </div>
+
+  <h2>Cadastro</h2>
+
+  <!-- Dados pessoais -->
+  <div class="section card">
+    <h4>Dados pessoais</h4>
+    <label>Nome completo</label>
+    <input type="text" id="nome">
+    <label>Faixa etária</label>
+    <select id="idade">
+      <option value="">Selecione</option>
+      <option value="18-25">18-25</option>
+      <option value="26-35">26-35</option>
+      <option value="36-45">36-45</option>
+      <option value="46+">46+</option>
+    </select>
+    <label>Gênero</label>
+    <select id="genero">
+      <option value="">Selecione</option>
+      <option value="Feminino">Feminino</option>
+      <option value="Masculino">Masculino</option>
+      <option value="Outro">Outro</option>
+    </select>
+    <label>Pronomes</label>
+    <input type="text" id="pronomes" placeholder="Ex.: ela/dela">
+    <label>Sexualidade</label>
+    <input type="text" id="sexualidade">
+    <label>Ocupação</label>
+    <input type="text" id="ocupacao">
+    <label>Estado</label>
+    <select id="estado">
+      <option value="">Selecione</option>
+      <option value="SP">São Paulo</option>
+      <option value="RJ">Rio de Janeiro</option>
+      <option value="MG">Minas Gerais</option>
+      <!-- Adicione outros estados -->
+    </select>
+  </div>
+
+  <!-- Dados de emergência -->
+  <div class="section card">
+    <h4>Dados de emergência</h4>
+    <p class="small-text">Os dados cadastrados serão utilizados em situações de risco/pânico. Ao acionar o botão de pânico (app, dispositivo ou colar), será enviada a localização atual, histórico de rotas, gravação de áudio e o seu nome completo.</p>
+
+    <!-- Contatos de emergência (até 5) -->
+    <div id="contatosContainer"></div>
+
+    <button class="btn" onclick="adicionarContato()">Adicionar contato de emergência</button>
+  </div>
+
+  <button class="btn" onclick="submitCadastro()">Salvar cadastro</button>
+</div>
+
+<script>
+const sidebar = document.getElementById('sidebar');
+const overlay = document.getElementById('overlay');
+
+function toggleMenu() {
+  sidebar.classList.toggle('active');
+  overlay.style.display = sidebar.classList.contains('active') ? 'block' : 'none';
+}
+function closeMenu() {
+  sidebar.classList.remove('active');
+  overlay.style.display = 'none';
+}
+
+// Contatos de emergência
+let contatosCount = 0;
+function adicionarContato() {
+  if(contatosCount >=5){
+    alert('Você pode cadastrar no máximo 5 contatos.');
+    return;
+  }
+  contatosCount++;
+  const container = document.getElementById('contatosContainer');
+  const div = document.createElement('div');
+  div.className = 'card';
+  div.innerHTML = `
+    <h4>Contato ${contatosCount}</h4>
+    <label>Nome</label>
+    <input type="text" class="contato-nome">
+    <label>Grau de relação</label>
+    <select class="contato-grau">
+      <option value="">Selecione</option>
+      <option value="Pai">Pai</option>
+      <option value="Mãe">Mãe</option>
+      <option value="Irmão">Irmão</option>
+      <option value="Irmã">Irmã</option>
+      <option value="Amigo">Amigo</option>
+      <option value="Amiga">Amiga</option>
+      <option value="Namorado">Namorado</option>
+      <option value="Namorada">Namorada</option>
+      <option value="Marido">Marido</option>
+      <option value="Esposa">Esposa</option>
+      <option value="Outro">Outro</option>
+    </select>
+    <label>Celular</label>
+    <input type="text" class="contato-celular">
+    <label>Email</label>
+    <input type="email" class="contato-email">
+  `;
+  container.appendChild(div);
+}
+
+function submitCadastro(){
+  const nome = document.getElementById('nome').value;
+  if(!nome){
+    alert('Preencha seu nome!');
+    return;
+  }
+  // Aqui você pode capturar todos os dados e enviar para o banco de dados
+  alert('Cadastro salvo com sucesso!');
+}
+</script>
+</body>
+</html>
